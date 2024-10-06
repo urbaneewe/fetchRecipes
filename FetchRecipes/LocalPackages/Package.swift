@@ -16,7 +16,9 @@ let package = Package(
     targets: [
         .target(
             name: "Recipes",
+            dependencies: ["ViewStore"],
             path: uiPath("Recipes")
-        )
+        ),
+        .target(name: "ViewStore")
     ]
 )
