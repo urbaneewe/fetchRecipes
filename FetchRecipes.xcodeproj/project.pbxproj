@@ -13,6 +13,7 @@
 		8702E5922CB3025800F3CE7E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8702E5912CB3025800F3CE7E /* Preview Assets.xcassets */; };
 		8702E5992CB3041B00F3CE7E /* LocalPackages in Resources */ = {isa = PBXBuildFile; fileRef = 8702E5982CB3041B00F3CE7E /* LocalPackages */; };
 		8702E59C2CB3061B00F3CE7E /* FetchAppUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8702E59B2CB3061B00F3CE7E /* FetchAppUI */; };
+		8702E5A22CB3ECCA00F3CE7E /* FetchAppService in Frameworks */ = {isa = PBXBuildFile; productRef = 8702E5A12CB3ECCA00F3CE7E /* FetchAppService */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8702E59C2CB3061B00F3CE7E /* FetchAppUI in Frameworks */,
+				8702E5A22CB3ECCA00F3CE7E /* FetchAppService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +100,7 @@
 			name = FetchRecipes;
 			packageProductDependencies = (
 				8702E59B2CB3061B00F3CE7E /* FetchAppUI */,
+				8702E5A12CB3ECCA00F3CE7E /* FetchAppService */,
 			);
 			productName = FetchRecipes;
 			productReference = 8702E5872CB3025600F3CE7E /* FetchRecipes.app */;
@@ -368,6 +371,10 @@
 		8702E59B2CB3061B00F3CE7E /* FetchAppUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FetchAppUI;
+		};
+		8702E5A12CB3ECCA00F3CE7E /* FetchAppService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FetchAppService;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

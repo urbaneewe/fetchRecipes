@@ -7,15 +7,18 @@
 
 import Foundation
 
+public struct RecipeResponse: Codable {
+    public let recipes: [Recipe]
+}
 
-struct Recipe: Codable, Identifiable {
-    let id: UUID
-    let cuisine: String
-    let name: String
-    let photoUrlLarge: URL
-    let photoUrlSmall: URL
-    let sourceUrl: URL?
-    let youtubeUrl: URL?
+public struct Recipe: Codable, Identifiable {
+    public let id: UUID
+    public let cuisine: String
+    public let name: String
+    public let photoUrlLarge: URL
+    public let photoUrlSmall: URL
+    public let sourceUrl: URL?
+    public let youtubeUrl: URL?
 
     enum CodingKeys: String, CodingKey {
         case id = "uuid"
@@ -29,7 +32,7 @@ struct Recipe: Codable, Identifiable {
 }
 
 extension Recipe {
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decode(UUID.self, forKey: .id)
