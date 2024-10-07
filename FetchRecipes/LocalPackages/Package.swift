@@ -18,6 +18,7 @@ let package = Package(
         .library(name: "FetchAppUI", targets: ["RecipesUI"])
     ],
     targets: [
+        .target(name: "CachingAsyncImage"),
         .target(name: "Extensions"),
         .target(
             name: "BackgroundColorManager",
@@ -25,7 +26,7 @@ let package = Package(
         ),
         .target(
             name: "RecipesUI",
-            dependencies: ["ViewStore", "RecipesService", "BackgroundColorManager"],
+            dependencies: ["ViewStore", "RecipesService", "BackgroundColorManager", "CachingAsyncImage"],
             path: uiPath("Recipes")
         ),
         .target(name: "ViewStore"),

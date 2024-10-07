@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import CachingAsyncImage
 
 struct RecipeView: View {
     let imageUrl: String
 
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: imageUrl)) { phase in
+            CachingAsyncImage(url: URL(string: imageUrl)) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
@@ -23,8 +24,6 @@ struct RecipeView: View {
                         .padding(.horizontal, 16)
                 case .failure(_):
                     ProgressView()
-                @unknown default:
-                    EmptyView()
                 }
             }
             .frame(width: UIScreen.main.bounds.width, height: 516)
