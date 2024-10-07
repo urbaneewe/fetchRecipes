@@ -8,14 +8,21 @@
 import SwiftUI
 
 public struct RecipesView: View {
+    @StateObject private var store: RecipesViewStore
 
-    public init() {}
+    public init(store: @autoclosure @escaping () -> RecipesViewStore) {
+        _store = StateObject(wrappedValue: store())
+    }
 
     public var body: some View {
-        Text("Hello, World!")
+        switch store.viewState {
+        case .loading:
+            Text("Loading indicator")
+        case .failedToLoad(let error):
+            Text("Error view")
+        case .loaded(let recipes):
+            Text("Actual UI")
+        }
     }
 }
 
-#Preview {
-    RecipesView()
-}

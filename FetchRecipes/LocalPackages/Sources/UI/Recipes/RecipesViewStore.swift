@@ -17,7 +17,8 @@ public final class RecipesViewStore: ViewStore {
     }
 
     public enum Action {
-      case refresh(isPullToRefresh: Bool)
+        case refresh
+        case loadRecipes
     }
 
     @Published public private(set) var viewState: ViewState
@@ -29,22 +30,27 @@ public final class RecipesViewStore: ViewStore {
     }
 
     public func send(_ action: Action) async {
-      do {
         switch action {
-        case .refresh(let isPullToRefresh):
-            if !isPullToRefresh {
+        case .refresh:
+            await fetchRecipes(showLoading: false)
+        case .loadRecipes:
+            await fetchRecipes(showLoading: true)
+        }
+    }
+
+    @MainActor
+        private func fetchRecipes(showLoading: Bool) async {
+            if showLoading {
                 viewState = .loading
             }
+
             do {
                 let recipes = try await recipeService.fetchRecipes()
                 viewState = .loaded(recipes)
             } catch {
                 viewState = .failedToLoad(error)
+                // Here we can implement a logger to log the error.
+                print("Error fetching recipes: \(error)")
             }
         }
-      } catch {
-          print("Here we can implement a logger to log the error.")
-      }
-    }
-
 }
