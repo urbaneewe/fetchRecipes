@@ -9,9 +9,11 @@ import SwiftUI
 import RecipesUI
 import RecipesService
 import ServiceConfiguration
+import BackgroundColorManager
 
 struct ContentView: View {
     @EnvironmentObject private var appEnvironment: AppEnvironment
+    @State private var colorManager = BackgroundColorManager()
 
     var body: some View {
         RecipesView(store: {
@@ -19,7 +21,7 @@ struct ContentView: View {
                 viewState: .loading,
                 recipeService: appEnvironment.recipeService
             )
-        }())
+        }(), colorManager: colorManager)
     }
 }
 

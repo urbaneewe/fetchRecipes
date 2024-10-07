@@ -12,13 +12,20 @@ let package = Package(
     name: packageName,
     defaultLocalization: "en", platforms: [.iOS("17.0")],
     products: [
+        .library(name: "Extensions", targets: ["Extensions"]),
+        .library(name: "BackgroundColorManager", targets: ["BackgroundColorManager"]),
         .library(name: "FetchAppService", targets: ["RecipesService", "ServiceConfiguration"]),
         .library(name: "FetchAppUI", targets: ["RecipesUI"])
     ],
     targets: [
+        .target(name: "Extensions"),
+        .target(
+            name: "BackgroundColorManager",
+            dependencies: ["Extensions"]
+        ),
         .target(
             name: "RecipesUI",
-            dependencies: ["ViewStore", "RecipesService"],
+            dependencies: ["ViewStore", "RecipesService", "BackgroundColorManager"],
             path: uiPath("Recipes")
         ),
         .target(name: "ViewStore"),

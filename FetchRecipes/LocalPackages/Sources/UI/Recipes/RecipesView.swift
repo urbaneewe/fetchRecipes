@@ -7,12 +7,15 @@
 
 import SwiftUI
 import RecipesService
+import BackgroundColorManager
 
 public struct RecipesView: View {
     @StateObject private var store: RecipesViewStore
+    private var colorManager: BackgroundColorManager
 
-    public init(store: @escaping @autoclosure () -> RecipesViewStore) {
+    public init(store: @escaping @autoclosure () -> RecipesViewStore, colorManager: BackgroundColorManager) {
         _store = StateObject(wrappedValue: store())
+        self.colorManager = colorManager
     }
 
     public var body: some View {
@@ -23,32 +26,30 @@ public struct RecipesView: View {
             case .failedToLoad(let error):
                 Text("Error view")
             case .loaded(let recipes):
-                ZStack {
+                ZStack(alignment: .bottom) {
                     VStack {
                         Text("Recipes!")
-                            .font(.system(size: 20))
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
 
                         ScrollView {
                             LazyVStack {
                                 ForEach(recipes, id: \.id) { recipe in
                                     VStack {
-
-                                        AsyncImage(url: URL(string: recipe.photoUrlLarge)) { phase in
-                                            switch phase {
-                                            case .empty:
-                                                ProgressView()
-                                            case .success(let image):
-                                                image
-                                                    .resizable()
-                                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                                                    .padding(.horizontal, 16)
-                                            case .failure(_):
-                                                ProgressView()
-                                            @unknown default:
-                                                EmptyView()
+                                        GeometryReader { geometry in
+                                            RecipeView(imageUrl: recipe.photoUrlLarge)
+                                            .onAppear {
+                                                colorManager.updateBackgroundColor(
+                                                    for: recipe.photoUrlLarge,
+                                                    geometry: geometry)
+                                            }
+                                            .onChange(of: geometry.frame(in: .global).midY) {
+                                                colorManager.updateBackgroundColor(
+                                                    for: recipe.photoUrlLarge,
+                                                    geometry: geometry)
                                             }
                                         }
-                                        .frame(width: UIScreen.main.bounds.width, height: 516)
+                                        .frame(height: 516)
 
                                         HStack {
                                             Spacer()
@@ -58,7 +59,7 @@ public struct RecipesView: View {
                                                 .fontWeight(.bold)
                                             Spacer()
                                         }
-                                        .background(.ultraThinMaterial)
+                                        .background(colorManager.backgroundColor)
                                         .clipShape(Capsule())
                                         .padding(.horizontal, 12)
 
@@ -76,11 +77,19 @@ public struct RecipesView: View {
                                 }
                             }
                             .scrollTargetLayout()
-
                         }
                         .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
                     }
-                    .background(.red)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                colorManager.backgroundColor,
+                                .black
+                            ]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
                 }
             }
         }
