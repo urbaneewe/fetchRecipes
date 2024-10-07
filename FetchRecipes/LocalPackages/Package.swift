@@ -18,7 +18,7 @@ let package = Package(
     targets: [
         .target(
             name: "RecipesUI",
-            dependencies: ["ViewStore"],
+            dependencies: ["ViewStore", "RecipesService"],
             path: uiPath("Recipes")
         ),
         .target(name: "ViewStore"),

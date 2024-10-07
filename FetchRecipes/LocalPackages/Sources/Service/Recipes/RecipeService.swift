@@ -19,13 +19,13 @@ enum RecipeServiceError: Error {
 
 // MARK: - RecipeService Protocol
 
-protocol RecipeServiceProtocol {
+public protocol RecipeService {
     func fetchRecipes() async throws -> [Recipe]
 }
 
 // MARK: - RecipeService Implementation
 
-final class RecipeService: RecipeServiceProtocol {
+final class RecipeServiceImpl: RecipeService {
     private let session: URLSession
     private let baseURL: URL
 

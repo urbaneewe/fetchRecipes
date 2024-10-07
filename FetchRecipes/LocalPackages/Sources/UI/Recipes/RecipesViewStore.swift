@@ -7,12 +7,13 @@
 
 import Foundation
 import ViewStore
+import RecipesService
 
 public final class RecipesViewStore: ViewStore {
-    public enum ViewState: Equatable {
+    public enum ViewState {
         case loading
-        case failedToLoad
-        case loaded
+        case failedToLoad(Error)
+        case loaded(_ recipes: [Recipe])
     }
 
     public enum Action {
@@ -20,19 +21,29 @@ public final class RecipesViewStore: ViewStore {
     }
 
     @Published public private(set) var viewState: ViewState
+    private let recipeService: RecipeService
 
-    public init(viewState: ViewState) {
-        self.viewState = viewState
+    @MainActor public init(viewState: ViewState, recipeService: RecipeService) {
+        self.viewState = .loading
+        self.recipeService = recipeService
     }
 
     public func send(_ action: Action) async {
       do {
         switch action {
         case .refresh(let isPullToRefresh):
-            print("Refresh")
+            if !isPullToRefresh {
+                viewState = .loading
+            }
+            do {
+                let recipes = try await recipeService.fetchRecipes()
+                viewState = .loaded(recipes)
+            } catch {
+                viewState = .failedToLoad(error)
+            }
         }
       } catch {
-          print("Log the error")
+          print("Here we can implement a logger to log the error.")
       }
     }
 

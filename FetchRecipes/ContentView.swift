@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Recipes
+import RecipesUI
 
 struct ContentView: View {
     var body: some View {
