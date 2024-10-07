@@ -91,6 +91,9 @@ public struct RecipesView: View {
                         )
                     )
                 }
+                .refreshable {
+                    await store.send(.refresh)
+                }
             }
         }
         .onAppear {
