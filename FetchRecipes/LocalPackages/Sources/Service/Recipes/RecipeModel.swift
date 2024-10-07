@@ -15,10 +15,10 @@ public struct Recipe: Codable, Identifiable {
     public let id: UUID
     public let cuisine: String
     public let name: String
-    public let photoUrlLarge: URL
-    public let photoUrlSmall: URL
-    public let sourceUrl: URL?
-    public let youtubeUrl: URL?
+    public let photoUrlLarge: String
+    public let photoUrlSmall: String
+    public let sourceUrl: String?
+    public let youtubeUrl: String?
 
     enum CodingKeys: String, CodingKey {
         case id = "uuid"
@@ -38,9 +38,9 @@ extension Recipe {
         id = try container.decode(UUID.self, forKey: .id)
         cuisine = try container.decode(String.self, forKey: .cuisine)
         name = try container.decode(String.self, forKey: .name)
-        photoUrlLarge = try container.decode(URL.self, forKey: .photoUrlLarge)
-        photoUrlSmall = try container.decode(URL.self, forKey: .photoUrlSmall)
-        sourceUrl = try? container.decodeIfPresent(URL.self, forKey: .sourceUrl)
-        youtubeUrl = try? container.decodeIfPresent(URL.self, forKey: .youtubeUrl)
+        photoUrlLarge = try container.decode(String.self, forKey: .photoUrlLarge)
+        photoUrlSmall = try container.decode(String.self, forKey: .photoUrlSmall)
+        sourceUrl = try? container.decodeIfPresent(String.self, forKey: .sourceUrl)
+        youtubeUrl = try? container.decodeIfPresent(String.self, forKey: .youtubeUrl)
     }
 }
