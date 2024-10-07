@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ServiceConfiguration
 
 // MARK: - Errors
 
@@ -25,17 +26,15 @@ public protocol RecipeService {
 
 // MARK: - RecipeService Implementation
 
-final class RecipeServiceImpl: RecipeService {
-    private let session: URLSession
-    private let baseURL: URL
+final public class RecipeServiceImpl: RecipeService {
+    private let config: ServiceConfiguration
 
-    init(session: URLSession = .shared, baseURL: URL) {
-        self.session = session
-        self.baseURL = baseURL
+    public init(config: ServiceConfiguration) {
+        self.config = config
     }
 
-    func fetchRecipes() async throws -> [Recipe] {
-        let endpoint = baseURL.appendingPathComponent("recipes")
+    public func fetchRecipes() async throws -> [Recipe] {
+        let endpoint = config.baseURL.appendingPathComponent("recipes")
 
         let (data, response) = try await performRequest(for: endpoint)
 
@@ -58,7 +57,7 @@ final class RecipeServiceImpl: RecipeService {
 
     private func performRequest(for url: URL) async throws -> (Data, URLResponse) {
         do {
-            return try await session.data(from: url)
+            return try await config.session.data(from: url)
         } catch {
             throw RecipeServiceError.networkError(error)
         }

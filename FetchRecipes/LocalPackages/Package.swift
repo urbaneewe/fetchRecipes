@@ -12,7 +12,7 @@ let package = Package(
     name: packageName,
     defaultLocalization: "en", platforms: [.iOS("17.0")],
     products: [
-        .library(name: "FetchAppService", targets: ["RecipesService"]),
+        .library(name: "FetchAppService", targets: ["RecipesService", "ServiceConfiguration"]),
         .library(name: "FetchAppUI", targets: ["RecipesUI"])
     ],
     targets: [
@@ -24,8 +24,12 @@ let package = Package(
         .target(name: "ViewStore"),
         .target(
             name: "RecipesService",
-            dependencies: [],
+            dependencies: ["ServiceConfiguration"],
             path: servicePath("Recipes")
+        ),
+        .target(
+            name: "ServiceConfiguration",
+            path: servicePath("ServiceConfiguration")
         )
     ]
 )
