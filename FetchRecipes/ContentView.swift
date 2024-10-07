@@ -7,10 +7,14 @@
 
 import SwiftUI
 import RecipesUI
+import RecipesService
+import ServiceConfiguration
 
 struct ContentView: View {
+    @EnvironmentObject private var appEnvironment: AppEnvironment
+
     var body: some View {
-        RecipesView()
+        RecipesView(recipeService: appEnvironment.recipeService)
     }
 }
 

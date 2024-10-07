@@ -6,22 +6,34 @@
 //
 
 import SwiftUI
+import RecipesService
 
 public struct RecipesView: View {
     @StateObject private var store: RecipesViewStore
 
-    public init(store: @autoclosure @escaping () -> RecipesViewStore) {
-        _store = StateObject(wrappedValue: store())
+    public init(recipeService: RecipeService) {
+        _store = StateObject(wrappedValue: RecipesViewStore(viewState: .loading, recipeService: recipeService))
     }
 
     public var body: some View {
-        switch store.viewState {
-        case .loading:
-            Text("Loading indicator")
-        case .failedToLoad(let error):
-            Text("Error view")
-        case .loaded(let recipes):
-            Text("Actual UI")
+        Group {
+            switch store.viewState {
+            case .loading:
+                Text("Loading indicator")
+            case .failedToLoad(let error):
+                Text("Error view")
+            case .loaded(let recipes):
+                List {
+                    ForEach(recipes) { recipe in
+                        Text(recipe.cuisine)
+                    }
+                }
+            }
+        }
+        .onAppear {
+            Task {
+                await store.send(.loadRecipes)
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ public final class RecipesViewStore: ViewStore {
         case loadRecipes
     }
 
-    @Published public private(set) var viewState: ViewState
+    @Published public private(set) var viewState: ViewState = .loading
     private let recipeService: RecipeService
 
     @MainActor public init(viewState: ViewState, recipeService: RecipeService) {
