@@ -34,7 +34,7 @@ final public class RecipeServiceImpl: RecipeService {
     }
 
     public func fetchRecipes() async throws -> [Recipe] {
-        let endpoint = config.baseURL.appendingPathComponent("recipes")
+        let endpoint = config.baseURL.appendingPathComponent("recipes.json")
 
         let (data, response) = try await performRequest(for: endpoint)
 
