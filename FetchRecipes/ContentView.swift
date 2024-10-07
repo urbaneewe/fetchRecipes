@@ -14,7 +14,12 @@ struct ContentView: View {
     @EnvironmentObject private var appEnvironment: AppEnvironment
 
     var body: some View {
-        RecipesView(recipeService: appEnvironment.recipeService)
+        RecipesView(store: {
+            RecipesViewStore(
+                viewState: .loading,
+                recipeService: appEnvironment.recipeService
+            )
+        }())
     }
 }
 

@@ -11,8 +11,8 @@ import RecipesService
 public struct RecipesView: View {
     @StateObject private var store: RecipesViewStore
 
-    public init(recipeService: RecipeService) {
-        _store = StateObject(wrappedValue: RecipesViewStore(viewState: .loading, recipeService: recipeService))
+    public init(store: @escaping @autoclosure () -> RecipesViewStore) {
+        _store = StateObject(wrappedValue: store())
     }
 
     public var body: some View {
