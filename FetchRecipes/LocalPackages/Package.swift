@@ -44,6 +44,10 @@ let package = Package(
         .target(
             name: "ServiceConfiguration",
             path: servicePath("ServiceConfiguration")
+        ),
+        .testTarget(
+            name: "RecipesServiceTests",
+            dependencies: ["RecipesService", "ServiceConfiguration", "RecipesUI"]
         )
     ]
 )

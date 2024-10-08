@@ -34,7 +34,7 @@ public struct RecipeResponse: Codable {
     public let recipes: [Recipe]
 }
 
-public struct Recipe: Codable, Identifiable {
+public struct Recipe: Codable, Identifiable, Equatable {
     public let id: UUID
     public let cuisine: String
     public let name: String
