@@ -7,7 +7,7 @@ let packageName = "LocalPackages"
 
 func uiPath(_ subPath: String) -> String { return "Sources/UI/\(subPath)" }
 func servicePath(_ subPath: String) -> String { return "Sources/Service/\(subPath)" }
-func testPath(_ subPath: String) -> String { return "Sources/Tests/\(subPath)" }
+func testPath(_ subPath: String) -> String { return "Sources/Mock/\(subPath)" }
 
 let package = Package(
     name: packageName,
@@ -27,13 +27,13 @@ let package = Package(
         ),
         .target(
             name: "RecipesUI",
-            dependencies: ["ViewStore", "RecipesService", "BackgroundColorManager", "CachingAsyncImage", "TestMocks"],
+            dependencies: ["ViewStore", "RecipesService", "BackgroundColorManager", "CachingAsyncImage", "Mock"],
             path: uiPath("Recipes")
         ),
         .target(
-            name: "TestMocks",
+            name: "Mock",
             dependencies: ["RecipesService"],
-            path: testPath("Mocks")
+            path: testPath("ServiceMocks")
            ),
         .target(name: "ViewStore"),
         .target(

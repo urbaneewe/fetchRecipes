@@ -8,7 +8,7 @@
 import SwiftUI
 import RecipesService
 import BackgroundColorManager
-import TestMocks
+import Mock
 
 public struct RecipesView: View {
     @StateObject private var store: RecipesViewStore
