@@ -8,6 +8,7 @@
 import SwiftUI
 import RecipesService
 import BackgroundColorManager
+import TestMocks
 
 public struct RecipesView: View {
     @StateObject private var store: RecipesViewStore
@@ -130,4 +131,23 @@ public struct RecipesView: View {
             }
         }
     }
+}
+
+#Preview("Loaded") {
+    RecipesView(store: RecipesViewStore(viewState: .loaded([
+        .preview(cuisine: "Italian", name: "Apple Frangipan Tart", photoUrlLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg", photoUrlSmall: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg"),
+        .preview(cuisine: "British", name: "Apple Frangpian Tart", photoUrlLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/7276e9f9-02a2-47a0-8d70-d91bdb149e9e/large.jpg", photoUrlSmall: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/7276e9f9-02a2-47a0-8d70-d91bdb149e9e/small.jpg")
+    ]), recipeService: MockRecipeService(result: .success([
+        .preview(cuisine: "Italian", name: "Apple Frangipan Tart", photoUrlLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg", photoUrlSmall: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg"),
+        .preview(cuisine: "British", name: "Apple Frangpian Tart", photoUrlLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/7276e9f9-02a2-47a0-8d70-d91bdb149e9e/large.jpg", photoUrlSmall: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/7276e9f9-02a2-47a0-8d70-d91bdb149e9e/small.jpg")
+]))), colorManager: BackgroundColorManager())
+}
+
+#Preview("Loaded empty") {
+    RecipesView(store: RecipesViewStore(viewState: .loaded([]), recipeService: MockRecipeService(result: .success([]))), colorManager: BackgroundColorManager())
+}
+
+#Preview("Error") {
+    RecipesView(store: RecipesViewStore(viewState: .failedToLoad(NSError(domain: "Preview", code: 0, userInfo: nil)), recipeService: MockRecipeService(result: .failure(NSError(domain: "Preview", code: 0, userInfo: nil)))), colorManager: BackgroundColorManager())
+        .preferredColorScheme(.dark)
 }

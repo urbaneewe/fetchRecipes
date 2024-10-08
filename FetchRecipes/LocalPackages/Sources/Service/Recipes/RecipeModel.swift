@@ -7,6 +7,29 @@
 
 import Foundation
 
+extension Recipe {
+    public static func preview(
+        id: UUID = UUID(),
+        cuisine: String,
+        name: String,
+        photoUrlLarge: String,
+        photoUrlSmall: String,
+        sourceUrl: String? = nil,
+        youtubeUrl: String? = nil
+    ) -> Recipe {
+            Recipe(
+                id: id,
+               cuisine: cuisine,
+               name: name,
+               photoUrlLarge: photoUrlLarge,
+               photoUrlSmall: photoUrlSmall,
+               sourceUrl: sourceUrl != nil ? sourceUrl : nil,
+               youtubeUrl: youtubeUrl != nil ?youtubeUrl : nil
+            )
+    }
+}
+
+
 public struct RecipeResponse: Codable {
     public let recipes: [Recipe]
 }
@@ -20,7 +43,7 @@ public struct Recipe: Codable, Identifiable {
     public let sourceUrl: String?
     public let youtubeUrl: String?
 
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "uuid"
         case cuisine
         case name
