@@ -22,15 +22,43 @@ public struct RecipesView: View {
         Group {
             switch store.viewState {
             case .loading:
-                Text("Loading indicator")
-            case .failedToLoad(let error):
-                Text("Error view")
+                ProgressView()
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+            case .failedToLoad(_):
+                VStack {
+                    Image(systemName: "exclamationmark.triangle")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundStyle(.red)
+
+                    Text("An error has occured!")
+
+                    Button {
+                        Task { await store.send(.refresh) }
+                    } label: {
+                        Text("Refresh")
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                    }
+                    .background(.ultraThinMaterial)
+                    .clipShape(Capsule())
+                    .foregroundStyle(.white)
+                }
             case .loaded(let recipes):
                 ZStack(alignment: .bottom) {
                     VStack {
-                        Text("Recipes!")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
+                        if recipes.isEmpty {
+                            Text("No Recipes at this time!")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .padding(.top, 30)
+                        } else {
+                            Text("Recipes!")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .padding(.top, 10)
+                        }
 
                         ScrollView {
                             LazyVStack {
@@ -103,4 +131,3 @@ public struct RecipesView: View {
         }
     }
 }
-

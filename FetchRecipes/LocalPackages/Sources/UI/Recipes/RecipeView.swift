@@ -17,6 +17,7 @@ struct RecipeView: View {
                 switch phase {
                 case .empty:
                     ProgressView()
+                        .foregroundStyle(.white)
                 case .success(let image):
                     image
                         .resizable()
